@@ -50,6 +50,8 @@ export default function SnakeGame() {
   const [deathSequence, setDeathSequence] = useState(false);
   // PVP spectator state
   const [isSpectating, setIsSpectating] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const isPausedRef = useRef(false);
   const [rivalDead, setRivalDead] = useState(false);
   const [rivalScore, setRivalScore] = useState(0);
   const [pvpResult, setPvpResult] = useState<'WIN' | 'LOSE' | null>(null);
@@ -118,6 +120,8 @@ export default function SnakeGame() {
     gameStartTimeRef.current = Date.now();
     xpModalShownRef.current = false;
     setShowXpModal(false);
+    isPausedRef.current = false;
+    setIsPaused(false);
     const isHost = networkRef.current?.role === "HOST";
     let mySnake: Position[];
     let rivalSnake: Position[];
@@ -380,7 +384,13 @@ export default function SnakeGame() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].indexOf(e.key) > -1) e.preventDefault();
-      const { direction } = engineRef.current;
+      const { direction, gameMode, gameOver } = engineRef.current;
+      // Space = pause (SOLO and BOT only, not during game over or countdown)
+      if (e.key === " " && (gameMode === "SOLO" || gameMode === "BOT") && !gameOver && countdownRef.current === null) {
+        isPausedRef.current = !isPausedRef.current;
+        setIsPaused(isPausedRef.current);
+        return;
+      }
       switch (e.key) {
         case "ArrowUp": case "w": case "W": if (direction !== "DOWN") engineRef.current.nextDirection = "UP"; break;
         case "ArrowDown": case "s": case "S": if (direction !== "UP") engineRef.current.nextDirection = "DOWN"; break;
@@ -477,8 +487,8 @@ export default function SnakeGame() {
       const speedProgression = state.score * 0.15; 
       const currentSpeed = Math.max(70, INITIAL_SPEED - speedProgression);
       
-      // MOVEMENT LOGIC (PAUSED STRICTLY DURING COUNTDOWN)
-      if (countdownRef.current !== null) {
+      // MOVEMENT LOGIC (PAUSED STRICTLY DURING COUNTDOWN OR PAUSE)
+      if (countdownRef.current !== null || isPausedRef.current) {
         state.lastTick = time; // Keep resetting lastTick so no time accumulates
       } else if (!state.gameOver && time - state.lastTick > currentSpeed) {
         state.direction = state.nextDirection;
@@ -1132,6 +1142,14 @@ export default function SnakeGame() {
         )}
 
         {/* --- START COUNTDOWN OVERLAY --- */}
+        {/* PAUSE OVERLAY */}
+        {isPaused && (
+          <div className="absolute inset-0 z-50 flex flex-col items-center justify-center pointer-events-none bg-black/50 backdrop-blur-sm">
+            <span className="text-6xl font-black text-white tracking-[0.3em] uppercase drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">PAUSED</span>
+            <span className="mt-3 text-[11px] font-mono text-white/40 tracking-[0.4em] uppercase">Press Space to resume</span>
+          </div>
+        )}
+
         {countdown !== null && (
           <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none overflow-hidden bg-black/10">
             <div className="relative flex flex-col items-center">

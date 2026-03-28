@@ -9,9 +9,9 @@ Players compete in PvP matches and earn on-chain XP validated by GenLayer's **Op
 ## Features
 
 - **3 Game Modes** — Solo, Player vs Bot, and Player vs Player
-- **AI-Validated XP** — Smart contract sends match data to LLM validators; they assign a performance tier and award XP on-chain
-- **Weekly Limit** — Each wallet can earn XP once per week
-- **Global Leaderboard** — Top 100 players ranked by XP from contract state
+- **AI-Validated XP** — Smart contract sends match data to GenLayer's AI validator network (Optimistic Democracy on Bradbury Testnet); 5 independent LLM validators reach consensus to assign a performance tier and award XP on-chain
+- **Weekly Challenge** — Each wallet can earn XP once per week in PvP mode
+- **Global Leaderboard** — Top 100 players ranked by XP earned through the Weekly Challenge PvP mode, stored on-chain
 - **Weekly Challenge** — LLM-generated challenge that changes every week
 - **Power-ups** — Eraser, Magnet, Ghost with unique mechanics
 - **Wallet Gate** — RainbowKit wallet connection required to play
@@ -228,8 +228,6 @@ Get testnet GEN from the [GenLayer faucet](https://faucet.genlayer.com).
 
 ---
 
-## Made By
-
-**iAbstrus** — [@iAbstrus](https://x.com/iAbstrus)
+Made by [iAbstrus](https://x.com/iAbstrus)
 
 Powered by [GenLayer](https://genlayer.com)

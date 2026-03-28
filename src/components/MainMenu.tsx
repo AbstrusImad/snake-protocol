@@ -12,7 +12,7 @@ interface MainMenuProps {
 export default function MainMenu({ onStartSolo, onStartBot, onStartPvp, onLeaderboard }: MainMenuProps) {
   const [dissolving, setDissolving] = React.useState<string | null>(null);
 
-  const handleAction = (type: 'SOLO' | 'BOT' | 'PVP', action: () => void) => {
+  const handleAction = (type: 'SOLO' | 'BOT' | 'PVP' | 'LEADERBOARD', action: () => void) => {
     setDissolving(type);
     setTimeout(action, 400); // Wait for animation
   };
@@ -78,7 +78,10 @@ export default function MainMenu({ onStartSolo, onStartBot, onStartPvp, onLeader
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#ff003c]"></div>
             <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-[#ff003c]"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#ff003c]/5 to-transparent -translate-x-full group-hover:animate-shine"></div>
-            <span className="relative z-10 text-lg sm:text-2xl font-black text-white tracking-[0.3em] uppercase group-hover:text-[#ff003c] transition-colors">PVP</span>
+            <div className="relative z-10 flex flex-col items-center gap-1">
+              <span className="text-lg sm:text-2xl font-black text-white tracking-[0.3em] uppercase group-hover:text-[#ff003c] transition-colors">Weekly PVP</span>
+              <span className="text-[9px] font-mono text-[#ff9900] tracking-[0.3em] uppercase group-hover:text-[#ffb833] transition-colors">Challenge</span>
+            </div>
             <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#ff003c]/50 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
             <div className="absolute -top-1 -right-1 px-2 py-0.5 bg-[#ff003c] text-white text-[8px] font-black uppercase rotate-12 group-hover:rotate-0 transition-transform">Alpha</div>
           </button>
@@ -86,8 +89,8 @@ export default function MainMenu({ onStartSolo, onStartBot, onStartPvp, onLeader
           {/* LEADERBOARD */}
           <button
             disabled={!!dissolving}
-            onClick={() => handleAction('PVP', onLeaderboard)}
-            className={`group relative w-full py-8 bg-[#00ff66]/5 backdrop-blur-md overflow-hidden transition-all hover:scale-105 active:scale-95 border border-[#00ff66]/30 hover:border-[#00ff66] shadow-[0_0_15px_rgba(0,255,102,0.1)] ${dissolving ? 'pointer-events-none' : ''}`}
+            onClick={() => handleAction('LEADERBOARD', onLeaderboard)}
+            className={`group relative w-full py-8 bg-[#00ff66]/5 backdrop-blur-md overflow-hidden transition-all hover:scale-105 active:scale-95 border border-[#00ff66]/30 hover:border-[#00ff66] shadow-[0_0_15px_rgba(0,255,102,0.1)] ${dissolving === 'LEADERBOARD' ? 'animate-pixel-dissolve pointer-events-none' : dissolving ? 'pointer-events-none' : ''}`}
           >
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#00ff66]"></div>
             <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-[#00ff66]"></div>
