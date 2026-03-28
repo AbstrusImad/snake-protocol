@@ -9,7 +9,6 @@ Players compete in PvP matches and earn on-chain XP validated by GenLayer's **Op
 ## Features
 
 - **3 Game Modes** — Solo, Player vs Bot, and Player vs Player
-- **Arena Mode** *(coming soon)* — 3–4 players free-for-all
 - **AI-Validated XP** — Smart contract sends match data to LLM validators; they assign a performance tier and award XP on-chain
 - **Weekly Limit** — Each wallet can earn XP once per week
 - **Global Leaderboard** — Top 100 players ranked by XP from contract state
@@ -169,20 +168,15 @@ snake-app/
 │   │   ├── XpResult.tsx            # Post-match XP modal
 │   │   ├── Leaderboard.tsx         # Global rankings
 │   │   ├── GameTimer.tsx           # Elapsed time display
-│   │   ├── GameWrapper.tsx         # SSR-disabled wrapper
-│   │   ├── ArenaGame.tsx           # 3–4 player mode (WIP)
-│   │   ├── ArenaLobby.tsx          # Arena room setup (WIP)
-│   │   └── ArenaResult.tsx         # Arena results (WIP)
+│   │   └── GameWrapper.tsx         # SSR-disabled wrapper
 │   ├── game/
 │   │   ├── types.ts                # TypeScript interfaces
 │   │   ├── constants.ts            # Game constants (speed, grid, timers)
 │   │   ├── utils.ts                # Wall/food generation helpers
 │   │   ├── BotEngine.ts            # BFS pathfinding AI
-│   │   ├── NetworkService.ts       # PvP WebRTC networking
-│   │   └── ArenaNetworkService.ts  # Arena multi-player networking
+│   │   └── NetworkService.ts       # PvP WebRTC networking
 │   └── lib/
 │       ├── genlayer.ts             # Contract read/write (PvP)
-│       ├── genlayer_arena.ts       # Contract read/write (Arena)
 │       └── db.ts                   # Room persistence (PostgreSQL)
 ```
 
