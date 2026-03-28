@@ -28,14 +28,14 @@ export async function submitArenaResult(
     address: ARENA_CONTRACT,
     functionName: "submit_arena_result",
     args: [callerAddress, position, score, totalPlayers, playerDuration, matchDuration, currentWeek],
-    value: 0n,
+    value: BigInt(0),
   });
 
   console.log("[ArenaGenLayer] tx submitted:", txHash);
 
   const receipt = await client.waitForTransactionReceipt({
     hash: txHash,
-    status: "ACCEPTED",
+    status: "ACCEPTED" as any,
     retries: 60,
     interval: 3000,
   });

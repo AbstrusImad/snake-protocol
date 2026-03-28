@@ -7,7 +7,7 @@ export type NetMessage =
   | { type: "POWERUP_SPAWN"; pos: Position; pType: string; spawnTimer: number }
   | { type: "POWERUP_EATEN"; pType: string; duration: number }
   | { type: "SHOCKWAVE_HIT" }
-  | { type: "GAME_OVER"; loser: "HOST" | "GUEST"; score: number }
+  | { type: "GAME_OVER"; loser: "HOST" | "GUEST"; score: number; wallet?: string }
   | { type: "WALLS"; walls: Position[] }
   | { type: "FOOD_POS"; pos: Position }
   | { type: "GUEST_READY" }

@@ -333,7 +333,7 @@ export default function ArenaGame({ net, myIndex, totalPlayers, myWallet, onExit
 
       const aliveCount = s.players.filter((p) => p.alive).length;
 
-      net.broadcast({ type: "FULL_STATE", players: s.players, foods: s.foods, tick: s.tick });
+      net.broadcast({ type: "FULL_STATE", players: s.players, foods: s.foods, tick: s.tick, boardPowerUp: null });
       setScores(s.players.map((p) => p.score));
       setAliveMask(s.players.map((p) => p.alive));
 
@@ -341,7 +341,7 @@ export default function ArenaGame({ net, myIndex, totalPlayers, myWallet, onExit
         winnerDeclaredRef.current = true;
         const wi = s.players.findIndex((p) => p.alive);
         setWinnerIndex(wi);
-        net.broadcast({ type: "FULL_STATE", players: s.players, foods: s.foods, tick: s.tick });
+        net.broadcast({ type: "FULL_STATE", players: s.players, foods: s.foods, tick: s.tick, boardPowerUp: null });
       }
 
       if (aliveCount === 0) {
