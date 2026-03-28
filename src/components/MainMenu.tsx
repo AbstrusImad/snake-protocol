@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { SoundManager } from "../game/SoundManager";
 
 interface MainMenuProps {
   onStartSolo: () => void;
@@ -12,7 +13,8 @@ interface MainMenuProps {
 export default function MainMenu({ onStartSolo, onStartBot, onStartPvp, onLeaderboard }: MainMenuProps) {
   const [dissolving, setDissolving] = React.useState<string | null>(null);
 
-  const handleAction = (type: 'SOLO' | 'BOT' | 'PVP' | 'LEADERBOARD', action: () => void) => {
+  const handleAction = (type: 'SOLO' | 'BOT' | 'PVP' | 'LEADERBOARD', action: () => void, sound?: () => void) => {
+    sound?.();
     setDissolving(type);
     setTimeout(action, 400); // Wait for animation
   };
@@ -46,7 +48,7 @@ export default function MainMenu({ onStartSolo, onStartBot, onStartPvp, onLeader
           {/* MODO SOLO */}
           <button
             disabled={!!dissolving}
-            onClick={() => handleAction('SOLO', onStartSolo)}
+            onClick={() => handleAction('SOLO', onStartSolo, SoundManager.clickSolo)}
             className={`group relative w-full py-8 bg-[#00f0ff]/5 backdrop-blur-md overflow-hidden transition-all hover:scale-105 active:scale-95 border border-[#00f0ff]/30 hover:border-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.1)] ${dissolving === 'SOLO' ? 'animate-pixel-dissolve pointer-events-none' : ''}`}
           >
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#00f0ff]"></div>
@@ -59,7 +61,7 @@ export default function MainMenu({ onStartSolo, onStartBot, onStartPvp, onLeader
           {/* MODO BOT */}
           <button
             disabled={!!dissolving}
-            onClick={() => handleAction('BOT', onStartBot)}
+            onClick={() => handleAction('BOT', onStartBot, SoundManager.clickBot)}
             className={`group relative w-full py-8 bg-[#7000ff]/5 backdrop-blur-md overflow-hidden transition-all hover:scale-105 active:scale-95 border border-[#7000ff]/30 hover:border-[#7000ff] shadow-[0_0_15px_rgba(112,0,255,0.1)] ${dissolving === 'BOT' ? 'animate-pixel-dissolve pointer-events-none' : ''}`}
           >
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#7000ff]"></div>
@@ -72,7 +74,7 @@ export default function MainMenu({ onStartSolo, onStartBot, onStartPvp, onLeader
           {/* MODO PVP */}
           <button
             disabled={!!dissolving}
-            onClick={() => handleAction('PVP', onStartPvp)}
+            onClick={() => handleAction('PVP', onStartPvp, SoundManager.clickPvp)}
             className={`group relative w-full py-8 bg-[#ff003c]/5 backdrop-blur-md overflow-hidden transition-all hover:scale-105 active:scale-95 border border-[#ff003c]/30 hover:border-[#ff003c] shadow-[0_0_15px_rgba(255,0,60,0.1)] ${dissolving === 'PVP' ? 'animate-pixel-dissolve pointer-events-none' : ''}`}
           >
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#ff003c]"></div>
@@ -89,7 +91,7 @@ export default function MainMenu({ onStartSolo, onStartBot, onStartPvp, onLeader
           {/* LEADERBOARD */}
           <button
             disabled={!!dissolving}
-            onClick={() => handleAction('LEADERBOARD', onLeaderboard)}
+            onClick={() => handleAction('LEADERBOARD', onLeaderboard, SoundManager.clickLeaderboard)}
             className={`group relative w-full py-8 bg-[#00ff66]/5 backdrop-blur-md overflow-hidden transition-all hover:scale-105 active:scale-95 border border-[#00ff66]/30 hover:border-[#00ff66] shadow-[0_0_15px_rgba(0,255,102,0.1)] ${dissolving === 'LEADERBOARD' ? 'animate-pixel-dissolve pointer-events-none' : dissolving ? 'pointer-events-none' : ''}`}
           >
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#00ff66]"></div>

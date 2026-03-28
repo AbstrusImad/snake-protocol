@@ -130,4 +130,38 @@ export const SoundManager = {
   disconnect() {
     sweep(440, 220, 0.3, 0.2, "sine");
   },
+
+  /** SOLO button — clean single blip (sine) */
+  clickSolo() {
+    beep(520, 0.08, 0.18, "sine", true);
+  },
+
+  /** PVB button — two-tone robotic click */
+  clickBot() {
+    beep(300, 0.06, 0.15, "square", true);
+    setTimeout(() => beep(420, 0.07, 0.15, "square", true), 60);
+  },
+
+  /** Weekly PVP button — punchy red alert */
+  clickPvp() {
+    beep(180, 0.05, 0.2, "sawtooth", true);
+    setTimeout(() => beep(360, 0.1, 0.2, "square", true), 50);
+  },
+
+  /** Leaderboard button — rising soft chime */
+  clickLeaderboard() {
+    beep(660, 0.07, 0.15, "sine", true);
+    setTimeout(() => beep(880, 0.1, 0.18, "sine", true), 70);
+  },
+
+  /** Generic back / cancel button */
+  clickBack() {
+    sweep(400, 250, 0.1, 0.15, "sine");
+  },
+
+  /** Generic confirm / start / join */
+  clickConfirm() {
+    beep(520, 0.06, 0.15, "sine", true);
+    setTimeout(() => beep(780, 0.1, 0.2, "sine", true), 60);
+  },
 };

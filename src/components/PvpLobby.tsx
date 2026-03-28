@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { NetworkService } from "../game/NetworkService";
+import { SoundManager } from "../game/SoundManager";
 import RoomsList from "./RoomsList";
 
 interface PvpLobbyProps {
@@ -142,7 +143,7 @@ export default function PvpLobby({ onGameReady, onBack }: PvpLobbyProps) {
       {mode === "SELECT" && (
         <div className="flex flex-col gap-5 w-full max-w-sm px-8">
           <button
-            onClick={handleCreateRoom}
+            onClick={() => { SoundManager.clickConfirm(); handleCreateRoom(); }}
             className="group relative w-full py-5 bg-[#ff003c]/5 border border-[#ff003c]/30 hover:border-[#ff003c] transition-all hover:scale-105 active:scale-95"
           >
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#ff003c]"></div>
@@ -154,7 +155,7 @@ export default function PvpLobby({ onGameReady, onBack }: PvpLobbyProps) {
           </button>
 
           <button
-            onClick={() => setMode("BROWSING")}
+            onClick={() => { SoundManager.clickPvp(); setMode("BROWSING"); }}
             className="group relative w-full py-5 bg-[#7000ff]/5 border border-[#7000ff]/30 hover:border-[#7000ff] transition-all hover:scale-105 active:scale-95"
           >
             <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#7000ff]"></div>
@@ -166,7 +167,7 @@ export default function PvpLobby({ onGameReady, onBack }: PvpLobbyProps) {
           </button>
 
           <button
-            onClick={onBack}
+            onClick={() => { SoundManager.clickBack(); onBack(); }}
             className="mt-4 text-white/30 hover:text-white/70 text-sm font-mono tracking-widest transition-colors"
           >
             ← BACK_TO_MENU
@@ -203,6 +204,7 @@ export default function PvpLobby({ onGameReady, onBack }: PvpLobbyProps) {
 
           <button
             onClick={() => {
+              SoundManager.clickBack();
               if (roomCodeRef.current) fetch(`/api/rooms/${roomCodeRef.current}`, { method: "DELETE" });
               networkRef.current?.destroy();
               setMode("SELECT");
