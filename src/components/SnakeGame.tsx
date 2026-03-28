@@ -7,7 +7,6 @@ import { generateWalls, generateFood, generatePowerUpPos } from "../game/utils";
 import { botNextDirection } from "../game/BotEngine";
 import { NetworkService, NetMessage } from "../game/NetworkService";
 import { SoundManager } from "../game/SoundManager";
-import { MusicManager } from "../game/MusicManager";
 import MainMenu from "./MainMenu";
 import PvpLobby from "./PvpLobby";
 import XpResult from "./XpResult";
@@ -75,20 +74,6 @@ export default function SnakeGame() {
       }
     }
   }, [isGameOver, currentMode, pvpResult]);
-
-  // Music management
-  useEffect(() => {
-    if (gamePhase === 'MENU' || gamePhase === 'LEADERBOARD' || gamePhase === 'LOBBY') {
-      MusicManager.play('menu');
-    } else if (gamePhase === 'PLAYING' || gamePhase === 'WAITING_START') {
-      const track = currentMode === 'PVP' ? 'pvp' : currentMode === 'BOT' ? 'bot' : 'solo';
-      MusicManager.play(track);
-    }
-  }, [gamePhase, currentMode]);
-
-  useEffect(() => {
-    if (isGameOver) MusicManager.fadeOut(800);
-  }, [isGameOver]);
 
   const networkRef = useRef<NetworkService | null>(null);
 
