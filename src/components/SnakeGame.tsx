@@ -6,6 +6,7 @@ import { GRID_COLS, GRID_ROWS, INITIAL_SPEED, POWERUP_DURATION_ERASER, POWERUP_D
 import { generateWalls, generateFood, generatePowerUpPos } from "../game/utils";
 import { botNextDirection } from "../game/BotEngine";
 import { NetworkService, NetMessage } from "../game/NetworkService";
+import { SoundManager } from "../game/SoundManager";
 import MainMenu from "./MainMenu";
 import PvpLobby from "./PvpLobby";
 import XpResult from "./XpResult";
@@ -65,6 +66,7 @@ export default function SnakeGame() {
   // Auto-open XP modal when PVP WINNER's game ends with enough duration
   useEffect(() => {
     if (isGameOver && currentMode === "PVP" && pvpResult === "WIN" && !xpModalShownRef.current && gameStartTimeRef.current > 0) {
+      SoundManager.victory();
       const dur = Math.floor((Date.now() - gameStartTimeRef.current) / 1000);
       if (dur >= 60) {
         xpModalShownRef.current = true;
@@ -232,6 +234,7 @@ export default function SnakeGame() {
           setRivalPowerUpInfo({ active: true, timer: Math.ceil(msg.duration), type: msg.pType as PowerUpType });
           break;
         case "SHOCKWAVE_HIT": {
+          SoundManager.hitReceived();
           // Remove 2 tail segments
           for (let t = 0; t < 2 && state.snake.length > 2; t++) {
             state.snake.pop();
@@ -349,6 +352,7 @@ export default function SnakeGame() {
 
       // Lobby, waiting, winner or loser already dead → show disconnect and let useEffect handle redirection
       state.gameOver = true;
+      SoundManager.disconnect();
       setRivalDisconnected(true);
     });
 
@@ -409,12 +413,13 @@ export default function SnakeGame() {
   useEffect(() => {
     if (countdown === null || countdown <= 0) {
       if (countdown === 0) {
-        // Just finished countdown, set to null after 500ms to hide "GO"
+        SoundManager.countdownGo();
         const t = setTimeout(() => setCountdown(null), 500);
         return () => clearTimeout(t);
       }
       return;
     }
+    SoundManager.countdownTick();
     const timer = setInterval(() => {
       setCountdown(prev => (prev !== null ? prev - 1 : null));
     }, 1000);
@@ -507,6 +512,7 @@ export default function SnakeGame() {
           state.gameOver = true;
           state.shake = 50; 
           state.glitch = 70;
+          SoundManager.death();
           setDeathSequence(true); // TRIGGER DEATH SEQUENCE
 
           // Notify opponent with my score and wallet
@@ -549,7 +555,7 @@ export default function SnakeGame() {
 
           if (reachFood) {
             const eatenFood = state.foods[eatenFoodIdx];
-            state.score += 10; state.foodCount++; setScore(state.score);
+            state.score += 10; state.foodCount++; setScore(state.score); SoundManager.eatFood();
             state.shake = 8;
             createExplosion(eatenFood[0]*cellSize+cellSize/2, eatenFood[1]*cellSize+cellSize/2, isMagnet ? "#00f0ff" : "#22c55e");
             if (state.foodCount % 5 === 0 && !state.powerUp) {
@@ -566,10 +572,12 @@ export default function SnakeGame() {
           } else if (state.powerUp && !state.powerUp.active && newHead[0] === state.powerUp.pos[0] && newHead[1] === state.powerUp.pos[1]) {
             state.powerUp.active = true;
             state.shake = 20;
+            SoundManager.pickupPowerup();
             if (state.powerUp.type === "ERASER") {
               state.powerUp.timer = POWERUP_DURATION_ERASER; state.pendingWalls = [...state.walls];
               state.shockwave = { x: newHead[0]*cellSize+cellSize/2, y: newHead[1]*cellSize+cellSize/2, radius: 0, maxRadius: Math.max(w,h) };
               state.rivalShockwaveHit = false;
+              SoundManager.shockwave();
             } else if (state.powerUp.type === "MAGNET") {
               state.powerUp.timer = POWERUP_DURATION_MAGNET;
             } else {
