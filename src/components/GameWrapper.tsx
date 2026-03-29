@@ -10,7 +10,7 @@ const DynamicSnakeGame = dynamic(() => import("./SnakeGame"), {
     <div className="w-full h-full flex flex-col items-center justify-center bg-black/50 gap-4">
       <div className="w-8 h-8 rounded-full border-b-2 border-emerald-500 animate-spin"></div>
       <p className="text-emerald-400 font-mono text-sm animate-pulse">
-        Inicializando Motor Gráfico 3D...
+        Initializing...
       </p>
     </div>
   ),
