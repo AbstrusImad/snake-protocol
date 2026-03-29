@@ -6,8 +6,29 @@ import { Providers } from "./Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GenLayer Snake Web3",
-  description: "El mejor juego de la serpiente potenciado por AI Smart Contracts en GenLayer.",
+  title: "Snake Protocol — Weekly PVP on GenLayer",
+  description: "Real-time 1v1 Snake game with on-chain XP. Win matches, earn XP validated by GenLayer AI validators, and climb the global leaderboard.",
+  openGraph: {
+    title: "Snake Protocol — Weekly PVP on GenLayer",
+    description: "Real-time 1v1 Snake game with on-chain XP. Win matches, earn XP validated by GenLayer AI validators, and climb the global leaderboard.",
+    url: "https://snake-protocol.vercel.app",
+    siteName: "Snake Protocol",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Snake Protocol — Weekly PVP on GenLayer",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Snake Protocol — Weekly PVP on GenLayer",
+    description: "Real-time 1v1 Snake game with on-chain XP validated by GenLayer AI validators.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -16,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="dark">
+    <html lang="en" className="dark">
       <body className={`${inter.className} bg-neutral-950 text-white min-h-screen antialiased`}>
         <Providers>
           {children}
